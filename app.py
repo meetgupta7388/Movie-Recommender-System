@@ -1,7 +1,16 @@
 import streamlit as st
-import pickle 
+import pickle
 import pandas as pd
 import requests
+import gdown
+
+# Google Drive file ID (replace with your actual file ID)
+file_id = '1MJRf2iQeIcND3xbSWkslQGh_hmx1AyIF'
+url = f'https://drive.google.com/uc?id={file_id}'
+
+# Download the file
+output = 'similarity.pkl'
+gdown.download(url, output, quiet=False)
 
 def fetch_poster(movie_id):
     response = requests.get("https://api.themoviedb.org/3/movie/{}?api_key=6dd5d25c600b8744fe8363ba7ebfae90&language=en-US".format(movie_id))
@@ -23,7 +32,7 @@ def recommend(movie):
         movie_id = movies.iloc[i[0]].movie_id
         recommended_movies.append(movies.iloc[i[0]].title)
         poster_url = fetch_poster(movie_id)
-        if poster_url:
+        if (poster_url):
             recommended_movies_posters.append(poster_url)
     return recommended_movies, recommended_movies_posters
 
